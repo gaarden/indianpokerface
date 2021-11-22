@@ -1,4 +1,4 @@
-# System Programming Team Project
+# System Programming Team Project 8조
 ## Linux Program 개발
 ### Topic
 > 소켓 프로그래밍을 이용한 인디언 포커 게임  
