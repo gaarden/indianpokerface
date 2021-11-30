@@ -1,0 +1,1 @@
+//player2(client2)을 위한 파일
