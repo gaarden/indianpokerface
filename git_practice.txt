@@ -1,5 +1,0 @@
-git is so hard.
-we have to practice.
-
-I can use commit -m.
-git commit -m "설명"
