@@ -1,3 +1,14 @@
+//<<<<<<< master
+//서버를 위한 코드 작성 파일
+//server = player2
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <windows.h>
+#include <socket.h>
+
+=======
 /* timeserv.c - a socket-based time of day server
  */
 #include <stdio.h>
@@ -91,3 +102,4 @@ int newCard()
 	num=rand()%9+1;//num=1로 하면 잘 돌아가는데 random으로 하면 뒷부분이 안나옴 ㅠㅠ 왜지.. 여튼! rand 함수 쓰려면 헤더파일 정의해야하는데 그것 좀 해줘! 그리고 rand함수 정리좀 해줘!
 	return num;
 }
+//>>>>>>> master
