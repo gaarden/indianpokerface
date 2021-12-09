@@ -24,7 +24,10 @@ char recv_data[BUF_LEN];
 
 int mChip = 20; //my chip
 char oChip[BUF_LEN]; //other chip->상대가 베팅한 칩 개수
-char bChip[BUF_LEN]; //betting chip
+char bChip[BUF_LEN]; //betting chip->내가 베팅한 칩 개수
+char mNum[BUF_LEN]; //my num->내 숫자
+int oNum = 0; //other num->상대 숫자
+char oNumc[BUF_LEN]; //char형으로 저장할 곳
 int win = 1;
 
 void *thread_recv(void *arg);
@@ -163,7 +166,8 @@ int main(int argc,char *argv[])
         {
             thread_start();
 
-			printf("상대방 카드: { %d }\n", newCard());
+			oNum = newCard();
+			printf("상대방 카드: { %d }\n", oNum);
 			printf("보유칩: { %d }\n", mChip--);
 			sleep(1);
 			printf("기본베팅은 1개입니다.\n");
@@ -180,8 +184,6 @@ int main(int argc,char *argv[])
 				printf("%d개를 베팅하셨습니다.\n\n", atoi(bChip));
 
 				send(client_fd, bChip, sizeof(bChip), 0);
-
-				//승패 판단하고 칩 개수 반영
 			}
 
 			else
@@ -196,9 +198,44 @@ int main(int argc,char *argv[])
 				printf("player2님의 베팅을 기다리는 중입니다..\n");
 				read(client_fd, oChip, BUF_LEN);
 				printf("player2님은 %d개를 베팅하셨습니다.\n\n", atoi(oChip));
+			}
 
+			printf("player2님의 카드 숫자는 무엇이었습니까?\n");
+			fgets(oNumc, sizeof(oNumc), stdin);
+			send(client_fd, oNumc, sizeof(oNumc), 0);
 
-				//승패 판단하고 칩 개수 반영
+			read(client_fd, mNum, BUF_LEN);
+			printf("player1님의 카드 숫자는 %d였습니다.\n\n", atoi(mNum));
+
+			oNum = atoi(oNumc);
+
+			//승패 판단 후 칩에 반영
+			if (atoi(mNum) > oNum)
+			{
+				mChip = mChip + atoi(oChip) + 2;
+
+				win = 1; //이기면 후공?
+
+				printf("player1님이 승리하셨습니다.\n");
+				printf("player2이 선플레이어입니다.\n\n");
+			}
+
+			else if (atoi(mNum) < oNum)
+			{
+				mChip = mChip - atoi(bChip);
+
+				win = 2;
+				
+				printf("player1님이 패배하셨습니다.\n");
+				printf("player1가 선플레이어입니다.\n\n");
+			}
+
+			else //무승부
+			{
+				mChip += 1;
+				
+				printf("무승부입니다.\n");
+				printf("베팅 순서는 유지됩니다.\n\n");
 			}
         
         }
