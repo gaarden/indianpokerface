@@ -21,8 +21,8 @@ void *treturn;
 int mChip = 20;
 char oChip[BUF_SIZE];
 char bChip[BUF_SIZE];
-char mNum[BUF_SIZE];
-int oNum = 0;
+char mNumc[BUF_SIZE];
+int oNum = 0,mNum=0;
 char oNumc[BUF_SIZE];
 int win = 1;
 
@@ -89,6 +89,149 @@ int newCard()
 	srand(time(NULL));
     int random = 0; // 정수형 변수 선언
     random = rand() % 9 + 1; // 난수 생성
+    if(random==1)
+    {
+            printf("***********\n");
+            printf("*         *\n");
+            printf("*    *    *\n");
+            printf("*  * *    *\n");
+            printf("*    *    *\n");
+            printf("*    *    *\n");
+            printf("*    *    *\n");
+	    printf("*    *    *\n");
+            printf("*  *****  *\n");
+            printf("*         *\n");
+            printf("***********\n");
+    }
+    else if(random==2)
+	    {
+            printf("***********\n");
+            printf("*         *\n");
+            printf("*   ***   *\n");
+            printf("*  *   *  *\n");
+            printf("*     *   *\n");
+            printf("*    *    *\n");
+            printf("*   *     *\n");
+	    printf("*  *      *\n");
+            printf("*  *****  *\n");
+            printf("*         *\n");
+            printf("***********\n");
+    }
+    else if(random==3)
+            {
+            printf("***********\n");
+            printf("*         *\n");
+	    printf("*   ***   *\n");
+            printf("*  *   *  *\n");
+            printf("*      *  *\n");
+            printf("*    **   *\n");
+            printf("*      *  *\n");
+            printf("*  *   *  *\n");
+            printf("*   ***   *\n");
+            printf("*         *\n");
+            printf("***********\n");
+	    }
+	else if(random==4)
+            {
+            printf("***********\n");
+            printf("*         *\n");
+            printf("*     *   *\n");
+            printf("*    **   *\n");
+            printf("*   * *   *\n");
+            printf("*  *  *   *\n");
+            printf("* ******* *\n");
+            printf("*     *   *\n");
+            printf("*     *   *\n");
+	    printf("*         *\n");
+            printf("***********\n");
+	    }
+	else if(random==5)
+            {
+            printf("***********\n");
+            printf("*         *\n");
+            printf("*  *****  *\n");
+            printf("*  *      *\n");
+            printf("*  ****   *\n");
+	    printf("*      *  *\n");
+            printf("*      *  *\n");
+            printf("*  *   *  *\n");
+            printf("*   ***   *\n");
+            printf("*         *\n");
+            printf("***********\n");
+    }
+else if(random==6)
+            {
+            printf("***********\n");
+            printf("*         *\n");
+            printf("*   ***   *\n");
+            printf("*  *   *  *\n");
+            printf("*  *      *\n");
+            printf("*  ****   *\n");
+            printf("*  *   *  *\n");
+	    printf("*  *   *  *\n");
+            printf("*   ***   *\n");
+            printf("*         *\n");
+            printf("***********\n");
+	    }
+
+else if(random==7)
+            {
+            printf("***********\n");
+            printf("*         *\n");
+            printf("*  *****  *\n");
+            printf("*  *   *  *\n");
+            printf("*  *   *  *\n");
+            printf("*      *  *\n");
+            printf("*      *  *\n");
+            printf("*      *  *\n");
+            printf("*      *  *\n");
+            printf("*         *\n");
+            printf("***********\n");
+    }
+
+    else if(random==8)
+            {
+            printf("***********\n");
+            printf("*         *\n");
+            printf("*   ***   *\n");
+            printf("*  *   *  *\n");
+            printf("*  *   *  *\n");
+            printf("*   ***   *\n");
+            printf("*  *   *  *\n");
+            printf("*  *   *  *\n");
+            printf("*   ***   *\n");
+            printf("*         *\n");
+            printf("***********\n");
+    }
+    else if(random==9)
+            {
+            printf("***********\n");
+            printf("*         *\n");
+            printf("*   ***   *\n");
+            printf("*  *   *  *\n");
+            printf("*  *   *  *\n");
+            printf("*   ****  *\n");
+            printf("*      *  *\n");
+            printf("*  *   *  *\n");
+            printf("*   ***   *\n");
+            printf("*         *\n");
+            printf("***********\n");
+    }
+    else if(random==10)
+            {
+            printf("***********\n");
+            printf("*         *\n");
+            printf("* *   **  *\n");
+            printf("* *  *  * *\n");
+            printf("* *  *  * *\n");
+            printf("* *  *  * *\n");
+            printf("* *  *  * *\n");
+            printf("* *  *  * *\n");
+            printf("* *   **  *\n");
+            printf("*         *\n");
+            printf("***********\n");
+    }
+
     return random;
 }
  
@@ -126,16 +269,18 @@ int main(int argc,char *argv[])
     while(1)
     {
         thread_start();
-
-		printf("상대방 카드: { %d }\n", newCard());
-		printf("보유칩: { %d }\n", mChip--);
+		printf("<상대방 카드>\n");
+		oNum=newCard();
+		//printf("상대방 카드: { %d }\n", newCard());
+		printf("\t보유칩: { %d }\n", mChip--);
 		sleep(1);
 		printf("기본베팅은 1개입니다.\n");
-		printf("보유칩: { %d }\n", mChip);
+		printf("\t보유칩: { %d }\n", mChip);
 		
 		if (win == 2)
 			{
-				printf("player1님의 베팅을 기다리는 중입니다..\n");
+				printf("player1의 베팅을 기다리는 중입니다..\n");
+				
 				read(client_fd, oChip, BUF_SIZE); //상대가 입력한 것 oChip저장
 				printf("player1님은 %d개를 베팅하셨습니다.\n\n", atoi(oChip));
 
@@ -165,16 +310,16 @@ int main(int argc,char *argv[])
 			}
 
 			read(client_fd, mNum, BUF_SIZE);
-			printf("player2님의 카드 숫자는 %d였습니다.\n\n", atoi(mNum));
+			printf("당신의 카드 숫자는 %d였습니다.\n\n", mNum);
 
-			printf("player1님의 카드 숫자는 무엇이었습니까?\n");
-			fgets(oNumc, sizeof(oNumc), stdin);
-			send(client_fd, oNumc, sizeof(oNumc), 0);
+			//printf("player1님의 카드 숫자는 무엇이었습니까?\n");
+			//fgets(oNumc, sizeof(oNumc), stdin);
+			send(client_fd, oNum, sizeof(oNum), 0);
 			
-			oNum = atoi(oNumc);
+			//oNum = atoi(oNumc);
 			
 			//승패 판단 후 칩에 반영
-			if (atoi(mNum) > oNum)
+			if (mNum > oNum)
 			{
 				mChip = mChip + atoi(oChip) + 2;
 
@@ -184,7 +329,7 @@ int main(int argc,char *argv[])
 				printf("player1이 선플레이어입니다.\n\n");
 			}
 
-			else if (atoi(mNum) < oNum)
+			else if (mNum < oNum)
 			{
 				mChip = mChip - atoi(bChip);
 
