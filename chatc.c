@@ -188,7 +188,7 @@ int main(int argc,char *argv[])
 			{
 				mChip = mChip - atoi(bChip);
 
-				win = 2;
+				win = 1;
 				
 				printf("player2님이 패배하셨습니다.\n");
 				printf("player2가 선플레이어입니다.\n\n");
