@@ -9,7 +9,9 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <arpa/inet.h>
- 
+#include <time.h>
+#include <curses.h>
+
 #define BUF_LEN 1024
  
 pthread_t thr;
@@ -24,7 +26,39 @@ int mChip = 20; //my chip
 char bChip[BUF_LEN];
 
 void *thread_recv(void *arg);
- 
+
+void start() {
+	initscr();
+	clear();
+	move(0,0);
+	addstr(" /* Let's play indianpoker game */");
+	move(LINES-1, 0);
+	refresh();
+	move(0, 0);
+	addstr("I will tell you about game's rule ^^7\n\n");
+	addstr("1. We'll distribute one card each.\n");
+	addstr("2. You can see each other's cards, but you can't see your own cards.\n");
+	addstr("3. If you think your card is bigger than your opponent, you can bet.\n");
+	addstr("4. If you're scared, you can give up.\n");
+	addstr("5. If you run out of chips, you lose.\n");
+	addstr("6. The one with the big card wins.\n");
+	addstr("7. If your card is 10, but you die, the opponent wins\n");
+	addstr("8. There are 30 chips\n");
+	addstr("\n Press 'q' to start game\n");
+	sleep(2);
+	getch();
+	endwin();
+	system("clear");
+	printf("\nHello World!\n");
+}
+
+int newCard()
+{
+    int random = 0; // 정수형 변수 선언
+    random = rand() % 9 + 1; // 난수 생성
+    return random;
+}
+
 void thread_start()
 {
     thr_exit = 0;
@@ -98,13 +132,12 @@ int main(int argc,char *argv[])
         exit(0);
     }
     
-    
     memset(recv_data,0x00,sizeof(recv_data));
     len = sizeof(client_addr);
     printf("=====[PORT] : %d =====\n",atoi(argv[1]));
     printf("Server : wating connection request.\n");
  
-    
+    start();
     
     while(1)
     {
@@ -127,7 +160,7 @@ int main(int argc,char *argv[])
         {
             thread_start();
 
-			printf("상대방 카드: { %d }\n", 1);
+			printf("상대방 카드: { %d }\n", newCard());
 			printf("보유칩: { %d }\n", mChip--);
 			sleep(1);
 			printf("기본베팅은 1개입니다.\n");
