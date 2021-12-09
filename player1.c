@@ -1,3 +1,7 @@
+//<<<<<<< master
+//player1(client1)을 위한 파일
+//client2 = player1
+=======
 /* timeclnt.c - a client for timeserv.c
  *		usage: timeclnt hostname portnumber
  */
@@ -54,3 +58,4 @@ int main(int ac, char *av[])
 		oops( "write" );			/* stdout	*/
 	close( sock_id );
 }
+//>>>>>>> master
