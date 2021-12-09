@@ -12,7 +12,7 @@
  
 pthread_t thr;
 int thr_id;
-thr_exit = 1;
+int thr_exit = 1;
 char recv_data[BUF_SIZE];
 int client_fd,len,n,n2;
 void *treturn;
@@ -44,7 +44,7 @@ void *thread_recv(void *arg)
          else if(n > 0)
          {    
              recv_data[n] = '\0';
-             printf("\n[관리자]: %s\n",recv_data);
+             printf("\n[player1]: %s\n",recv_data);
          }
     }
  
@@ -83,6 +83,14 @@ int main(int argc,char *argv[])
     while(1)
     {
         thread_start();
+
+		printf("상대방 카드: { %d }\n", 1);
+		printf("보유칩: { %d }\n", 20);
+		sleep(1);
+		printf("기본베팅은 1개입니다.\n");
+		printf("보유칩: { %d }\n", 19);
+		printf("베팅할 칩 개수를 입력하세요.\n");
+
         fgets(chat_data,sizeof(chat_data),stdin);
         send(client_fd,chat_data,sizeof(chat_data),0);
     }

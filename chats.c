@@ -19,8 +19,10 @@ void *treturn;
 struct sockaddr_in server_addr,client_addr;
 int server_fd,client_fd,n,n2;
 char recv_data[BUF_LEN];
- 
- 
+
+int mChip = 20; //my chip
+char bChip[BUF_LEN];
+
 void *thread_recv(void *arg);
  
 void thread_start()
@@ -49,9 +51,8 @@ void *thread_recv(void *arg)
  
         }else if(n > 0)
         {
-            recv_data[n] = '\0';    
-            printf("\n[접속자님: %s(%d)]: %s\n",inet_ntoa(client_addr.sin_addr)
-                    ,ntohs(client_addr.sin_port),recv_data);
+            recv_data[n] = '\0';	
+            printf("\n[player2]: %s\n" ,recv_data);
         }
     }
  
@@ -105,7 +106,7 @@ int main(int argc,char *argv[])
  
     
     
-    }while(1)
+    while(1)
     {
         client_fd = accept(server_fd,(struct sockaddr *)&client_addr,(socklen_t *)&len);
         
@@ -118,23 +119,37 @@ int main(int argc,char *argv[])
         inet_ntop(AF_INET,&client_addr.sin_addr.s_addr,temp,sizeof(temp));
         printf("Server: %s client connect.\n",temp);
  
-        printf("\n%s(%d)님이 들어오셨습니다. 나가려면 (quit)을 누르세요\n",
-                inet_ntoa(client_addr.sin_addr),ntohs(client_addr.sin_port));
+        printf("\nplayer2(%s)님이 들어오셨습니다.\n 게임을 시작합니다.\n\n",
+                inet_ntoa(client_addr.sin_addr));
+		printf("player2(%s)님이 선플레이어입니다.\n\n", inet_ntoa(client_addr.sin_addr));
+
         while(1)
         {
-        
-            thread_start();        
-            fgets(chat_data,sizeof(chat_data),stdin);
-            if((n2 = send(client_fd,chat_data,sizeof(chat_data),0)) == -1)
+            thread_start();
+
+			printf("상대방 카드: { %d }\n", 1);
+			printf("보유칩: { %d }\n", mChip--);
+			sleep(1);
+			printf("기본베팅은 1개입니다.\n");
+			printf("보유칩: { %d }\n", mChip);
+			printf("베팅할 칩 개수를 입력하세요.\n");
+
+			fgets(bChip, sizeof(bChip), stdin);
+			printf("%d개를 베팅하셨습니다.\n\n", atoi(bChip));
+			/*
+			if((n2 = send(client_fd,chat_data,sizeof(chat_data),0)) == -1)
             {
                 break;
             }
+			*/
+			send(client_fd, bChip, sizeof(bChip), 0);
         
         }
         
         thread_stop();
         close(client_fd);
         printf("Server: %s client closed.\n",temp);
+	}
         
     
     close(server_fd);
