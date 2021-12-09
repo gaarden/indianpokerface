@@ -27,7 +27,12 @@ void start() {
 	system("clear");
 	printf("\nHello World!\n");
 }
-
-main() {
+int newCard()
+{
+    int random = 0; // 정수형 변수 선언
+    random = rand() % 9 + 1; // 난수 생성
+    return random;
+}
+int main() {
 	start();
 }
