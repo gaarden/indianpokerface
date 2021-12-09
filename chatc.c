@@ -19,7 +19,9 @@ char recv_data[BUF_SIZE];
 int client_fd,len,n,n2;
 void *treturn;
 int mChip = 20;
+char oChip[BUF_SIZE];
 char bChip[BUF_SIZE];
+int win = 1;
 
 void *thread_recv(void *arg);
 
@@ -45,7 +47,6 @@ void start() {
 	getch();
 	endwin();
 	system("clear");
-	printf("\nHello World!\n");
 }
 
 void thread_start()
@@ -82,6 +83,7 @@ void *thread_recv(void *arg)
 
 int newCard()
 {
+	srand(time(NULL));
     int random = 0; // 정수형 변수 선언
     random = rand() % 9 + 1; // 난수 생성
     return random;
@@ -127,10 +129,38 @@ int main(int argc,char *argv[])
 		sleep(1);
 		printf("기본베팅은 1개입니다.\n");
 		printf("보유칩: { %d }\n", mChip);
-		printf("베팅할 칩 개수를 입력하세요.\n");
+		
+		if (win != 1)
+			{
+				printf("player1님의 베팅을 기다리는 중입니다..\n");
+				read(client_fd, oChip, BUF_SIZE); //상대가 입력한 것 oChip저장
+				printf("player1님은 %d개를 베팅하셨습니다.\n\n", atoi(oChip));
 
-        fgets(bChip, sizeof(bChip), stdin);
-        send(client_fd, bChip, sizeof(bChip),0);
+				printf("베팅할 칩 개수를 입력하세요.\n");
+				fgets(bChip, sizeof(bChip), stdin);
+				printf("%d개를 베팅하셨습니다.\n\n", atoi(bChip));
+
+				send(client_fd, bChip, sizeof(bChip), 0);
+
+				//승패 판단하고 칩 개수 반영
+			}
+
+			else
+			{
+				printf("베팅할 칩 개수를 입력하세요.\n");
+
+				fgets(bChip, sizeof(bChip), stdin);
+				printf("%d개를 베팅하셨습니다.\n\n", atoi(bChip));
+			
+				send(client_fd, bChip, sizeof(bChip), 0);
+				
+				printf("player1님의 베팅을 기다리는 중입니다..\n");
+				read(client_fd, oChip, BUF_SIZE);
+				printf("player1님은 %d개를 베팅하셨습니다.\n\n", atoi(oChip));
+
+				//승패 판단하고 칩 개수 반영
+			}
+
     }
     
     thread_stop();
