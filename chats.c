@@ -218,7 +218,7 @@ void start() {
 
 int newCard()
 {
-	srand(time(NULL));
+	srand(time(NULL)+1);
     int random = 0; // 정수형 변수 선언
     random = rand() % 9 + 1; // 난수 생성
  if(random==1)
