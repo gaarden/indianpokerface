@@ -56,8 +56,8 @@ int main(int argc,char *argv[])
     }
     
 	start();
-
-    while(1)
+    int game = 1;
+    while(game)
     {
 		sleep(2);
 		printf("<상대방 카드>\n");
@@ -132,9 +132,10 @@ int main(int argc,char *argv[])
 					printf("player1의 베팅칩이 모두 소진되었습니다.\n");
 					printf("player1의 패배로 게임을 종료합니다.\n");
 					close(client_fd);
+                    game = 0;
 				}
-
-				printf("player2가 선플레이어입니다.\n\n");
+                if (game)
+				    printf("player2가 선플레이어입니다.\n\n");
 			}
 
 			else //무승부
@@ -144,6 +145,10 @@ int main(int argc,char *argv[])
 				printf("무승부입니다.\n");
 				printf("베팅 순서는 유지됩니다.\n\n");
 			}
+    if (mChip >= 40) {
+        game = 0;
+        close(client_fd);
+    }
 
 
     }

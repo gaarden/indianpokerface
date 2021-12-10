@@ -73,8 +73,9 @@ int main(int argc,char *argv[])
     printf("Server : wating connection request.\n");
  
     start();
+    int game = 1;
     
-    while(1)
+    while(game)
     {
         client_fd = accept(server_fd,(struct sockaddr *)&client_addr,(socklen_t *)&len);
         
@@ -91,7 +92,7 @@ int main(int argc,char *argv[])
                 inet_ntoa(client_addr.sin_addr));
 		printf("player2(%s)님이 선플레이어입니다.\n\n", inet_ntoa(client_addr.sin_addr));
 
-        while(1)
+        while(game)
         {
 			sleep(2);
 			printf("<상대방 카드>\n");
@@ -165,9 +166,11 @@ int main(int argc,char *argv[])
 					printf("player1의 패배로 게임을 종료합니다.\n");
 					close(client_fd);
 					close(server_fd);
+                    game = 0;
 				}
 
-				printf("player1가 선플레이어입니다.\n\n");
+                if (game)
+				    printf("player1가 선플레이어입니다.\n\n");
 			}
 
 			else //무승부
@@ -177,6 +180,9 @@ int main(int argc,char *argv[])
 				printf("무승부입니다.\n");
 				printf("베팅 순서는 유지됩니다.\n\n");
 			}
+
+        if (mChip >= 40)
+            game = 0;
         
         }
         
