@@ -25,6 +25,8 @@ int oNum = 0,mNum=0; //other num->상대 숫자
 char oNumc[BUF_LEN]; //char형으로 저장할 곳
 int win = 1;
 
+char name[BUF_LEN];
+
 void start();
 int newCard();
 
@@ -54,15 +56,15 @@ int main(int argc,char *argv[])
     
     if(bind(server_fd, (struct sockaddr *)&server_addr, sizeof(server_addr))< 0)
     {
-        printf("Server: cat not bind local address\n");
+        printf("bind error!\n");
         exit(0);
         
     }
     
     
-    if(listen(server_fd,5) < 0)
+    if(listen(server_fd, 1) < 0)
     {
-        printf("Server: cat not listen connect.\n");
+        printf("listen error!\n");
         exit(0);
     }
 
@@ -70,11 +72,15 @@ int main(int argc,char *argv[])
     
     memset(recv_data,0x00,sizeof(recv_data));
     len = sizeof(client_addr);
+
+	printf("이름을 입력해주세요.\n");
+	fgets(name, sizeof(name), stdin);
+	strncpy(name, name, sizeof(name)-1);
     printf("=====[PORT] : %d =====\n",atoi(argv[1]));
     printf("Waiting for the opponent to play the game..\n\n");
 
     int game = 1;
-    
+
     while(game)
     {
         client_fd = accept(server_fd,(struct sockaddr *)&client_addr,(socklen_t *)&len);
@@ -89,11 +95,11 @@ int main(int argc,char *argv[])
 
         printf("Server: %s client connect.\n",temp);
  
-        printf("\nplayer2(%s)님이 들어오셨습니다.\n 게임을 시작합니다.\n\n",
+        printf("\n상대(%s)가  들어왔습니다.\n 게임을 시작합니다.\n\n",
                 inet_ntoa(client_addr.sin_addr));
 
 		sleep(1);
-		printf("player2(%s)님이 선플레이어입니다.\n\n", inet_ntoa(client_addr.sin_addr));
+		printf("상대가 선플레이어입니다.\n\n");
 
         while(game)
         {
@@ -108,9 +114,9 @@ int main(int argc,char *argv[])
 			
 			if (win == 1)
 			{
-				printf("player2님의 베팅을 기다리는 중입니다..\n");
+				printf("상대의 베팅을 기다리는 중입니다..\n");
 				read(client_fd, oChip, BUF_LEN); //상대가 입력한 것 oChip저장
-				printf("player2님은 %d개를 베팅하셨습니다.\n\n", atoi(oChip));
+				printf("상대는 %d개를 베팅했습니다.\n\n", atoi(oChip));
 
 				printf("베팅할 칩 개수를 입력하세요.\n");
 				fgets(bChip, sizeof(bChip), stdin);
@@ -122,7 +128,7 @@ int main(int argc,char *argv[])
 					 fgets(bChip, sizeof(bChip), stdin);
                  }
 
-				printf("%d개를 베팅하셨습니다.\n\n", atoi(bChip));
+				printf("%s님은 %d개를 베팅하셨습니다.\n\n", name, atoi(bChip));
 
 				send(client_fd, bChip, sizeof(bChip), 0);
 				sleep(2);
@@ -140,13 +146,13 @@ int main(int argc,char *argv[])
 					fgets(bChip, sizeof(bChip), stdin);
 				}
 
-				printf("%d개를 베팅하셨습니다.\n\n", atoi(bChip));
+				printf("%s님은 %d개를 베팅하셨습니다.\n\n", name, atoi(bChip));
 			
 				send(client_fd, bChip, sizeof(bChip), 0);
 
-				printf("player2님의 베팅을 기다리는 중입니다..\n");
+				printf("상대의 베팅을 기다리는 중입니다..\n");
 				read(client_fd, oChip, BUF_LEN);
-				printf("player2님은 %d개를 베팅하셨습니다.\n\n", atoi(oChip));
+				printf("상대는 %d개를 베팅했습니다.\n\n", atoi(oChip));
 				sleep(2);
 			}
 
@@ -156,7 +162,7 @@ int main(int argc,char *argv[])
 
 			read(client_fd, mNumc, BUF_LEN);
 			mNum = atoi(mNumc);
-			printf("당신의 카드 숫자는 %d였습니다.\n\n", mNum);
+			printf("%s님의 카드 숫자는 %d였습니다.\n\n", name, mNum);
 			sleep(3);
 
 			//승패 판단 후 칩에 반영
@@ -166,12 +172,12 @@ int main(int argc,char *argv[])
 
 				win = 1; //이기면 후공?
 
-				printf("player1님이 승리하셨습니다.\n");
+				printf("%s님이 승리하셨습니다.\n", name);
 
                 if (40-mChip > 0)
-				    printf("player2이 선플레이어입니다.\n\n");
+				    printf("상대가 선플레이어입니다.\n\n");
                 else
-                    printf("게임을 종료합니다.\n");
+                    printf("%s님의 승리로 게임을 종료합니다.\n", name);
 			}
 
 			else if (mNum < oNum)
@@ -180,19 +186,19 @@ int main(int argc,char *argv[])
 
 				win = 2;
 				
-				printf("player1님이 패배하셨습니다.\n");
+				printf("%s님이 패배하셨습니다.\n", name);
 
 				if (mChip <= 0)
 				{
-					printf("player1의 베팅칩이 모두 소진되었습니다.\n");
-					printf("player1의 패배로 게임을 종료합니다.\n");
+					printf("%s님의 베팅칩이 모두 소진되었습니다.\n", name);
+					printf("%s님의 패배로 게임을 종료합니다.\n", name);
 					close(client_fd);
 					close(server_fd);
                     game = 0;
 				}
 
                 if (game)
-				    printf("player1가 선플레이어입니다.\n\n");
+				    printf("%s님이 선플레이어입니다.\n\n", name);
 			}
 
 			else //무승부
