@@ -57,6 +57,7 @@ int main(int argc,char *argv[])
     
 	start();
     int game = 1;
+
     while(game)
     {
 		sleep(2);
@@ -77,6 +78,14 @@ int main(int argc,char *argv[])
 
 				printf("베팅할 칩 개수를 입력하세요.\n");
 				fgets(bChip, sizeof(bChip), stdin);
+
+				while(mChip < atoi(bChip))
+				{
+					printf("보유칩보다 베팅칩이 많습니다. 베팅칩을 다시 입력해주세요.\n");
+					printf("베팅할 칩 개수를 입력하세요.\n");
+					fgets(bChip, sizeof(bChip), stdin);
+				}
+
 				printf("%d개를 베팅하셨습니다.\n\n", atoi(bChip));
 
 				send(client_fd, bChip, sizeof(bChip), 0);
@@ -86,8 +95,15 @@ int main(int argc,char *argv[])
 			else
 			{
 				printf("베팅할 칩 개수를 입력하세요.\n");
-
 				fgets(bChip, sizeof(bChip), stdin);
+
+				while(mChip < atoi(bChip))
+				{
+					printf("보유칩보다 베팅칩이 많습니다. 베팅칩을 다시 입력해주세요.\n");
+					printf("베팅할 칩 개수를 입력하세요.\n");
+					fgets(bChip, sizeof(bChip), stdin);
+				}
+
 				printf("%d개를 베팅하셨습니다.\n\n", atoi(bChip));
 			
 				send(client_fd, bChip, sizeof(bChip), 0);
@@ -116,6 +132,7 @@ int main(int argc,char *argv[])
 				win = 2; //이기면 후공?
 
 				printf("player2님이 승리하셨습니다.\n");
+
 				printf("player1이 선플레이어입니다.\n\n");
 			}
 

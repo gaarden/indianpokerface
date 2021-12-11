@@ -55,7 +55,7 @@ int main(int argc,char *argv[])
     
     if(bind(server_fd, (struct sockaddr *)&server_addr, sizeof(server_addr))< 0)
     {
-        printf("Server: cat not bind local addrss\n");
+        printf("Server: cat not bind local address\n");
         exit(0);
         
     }
@@ -63,16 +63,17 @@ int main(int argc,char *argv[])
     
     if(listen(server_fd,5) < 0)
     {
-        printf("Server: cat not listen connnect.\n");
+        printf("Server: cat not listen connect.\n");
         exit(0);
     }
+
+	start();
     
     memset(recv_data,0x00,sizeof(recv_data));
     len = sizeof(client_addr);
     printf("=====[PORT] : %d =====\n",atoi(argv[1]));
-    printf("Server : wating connection request.\n");
- 
-    start();
+    printf("Waiting for the opponent to play the game..\n\n");
+
     int game = 1;
     
     while(game)
@@ -84,12 +85,15 @@ int main(int argc,char *argv[])
             printf("Server: accept failed\n");
             exit(0);
         }
-        
-        inet_ntop(AF_INET,&client_addr.sin_addr.s_addr,temp,sizeof(temp));
+
+		inet_ntop(AF_INET,&client_addr.sin_addr.s_addr,temp,sizeof(temp));
+
         printf("Server: %s client connect.\n",temp);
  
         printf("\nplayer2(%s)님이 들어오셨습니다.\n 게임을 시작합니다.\n\n",
                 inet_ntoa(client_addr.sin_addr));
+
+		sleep(1);
 		printf("player2(%s)님이 선플레이어입니다.\n\n", inet_ntoa(client_addr.sin_addr));
 
         while(game)
@@ -111,6 +115,14 @@ int main(int argc,char *argv[])
 
 				printf("베팅할 칩 개수를 입력하세요.\n");
 				fgets(bChip, sizeof(bChip), stdin);
+
+				while(mChip < atoi(bChip))
+				{
+                     printf("보유칩보다 베팅칩이 많습니다. 베팅칩을 다시 입력해주세요.\n");
+                     printf("베팅할 칩 개수를 입력하세요.\n");
+					 fgets(bChip, sizeof(bChip), stdin);
+                 }
+
 				printf("%d개를 베팅하셨습니다.\n\n", atoi(bChip));
 
 				send(client_fd, bChip, sizeof(bChip), 0);
@@ -120,8 +132,15 @@ int main(int argc,char *argv[])
 			else
 			{
 				printf("베팅할 칩 개수를 입력하세요.\n");
-
 				fgets(bChip, sizeof(bChip), stdin);
+
+				while(mChip < atoi(bChip))
+				{
+					printf("보유칩보다 베팅칩이 많습니다. 베팅칩을 다시 입력해주세요.\n");
+					printf("베팅할 칩 개수를 입력하세요.\n");
+					fgets(bChip, sizeof(bChip), stdin);
+				}
+
 				printf("%d개를 베팅하셨습니다.\n\n", atoi(bChip));
 			
 				send(client_fd, bChip, sizeof(bChip), 0);
@@ -149,6 +168,7 @@ int main(int argc,char *argv[])
 				win = 1; //이기면 후공?
 
 				printf("player1님이 승리하셨습니다.\n");
+
 				printf("player2이 선플레이어입니다.\n\n");
 			}
 
@@ -214,7 +234,7 @@ void start() {
 	addstr("5. If you run out of chips, you lose.\n");
 	addstr("6. The one with the big card wins.\n");
 	addstr("7. If your card is 10, but you die, the opponent wins\n");
-	addstr("8. There are 30 chips\n");
+	addstr("8. There are 20 chips\n");
 	addstr("\n Press 'q' to start game\n");
 	sleep(2);
 	getch();
