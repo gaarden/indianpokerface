@@ -168,7 +168,10 @@ int main(int argc,char *argv[])
 
 				printf("player1님이 승리하셨습니다.\n");
 
-				printf("player2이 선플레이어입니다.\n\n");
+                if (40-mChip > 0)
+				    printf("player2이 선플레이어입니다.\n\n");
+                else
+                    printf("게임을 종료합니다.\n");
 			}
 
 			else if (mNum < oNum)
