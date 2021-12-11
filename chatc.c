@@ -60,6 +60,8 @@ int main(int argc,char *argv[])
 
 	printf("이름을 입력해주세요.\n");
 	fgets(name, sizeof(name), stdin);
+	int namelen = strlen(name);
+	name[namelen-1] = '\0';
 
 	printf("\n%s님이 선플레이어입니다.\n\n", name);
 

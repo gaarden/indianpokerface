@@ -75,7 +75,9 @@ int main(int argc,char *argv[])
 
 	printf("이름을 입력해주세요.\n");
 	fgets(name, sizeof(name), stdin);
-	strncpy(name, name, sizeof(name)-1);
+	int namelen = strlen(name);
+	name[namelen-1] = '\0';
+	
     printf("=====[PORT] : %d =====\n",atoi(argv[1]));
     printf("Waiting for the opponent to play the game..\n\n");
 
@@ -215,7 +217,6 @@ int main(int argc,char *argv[])
         }
         
         close(client_fd);
-        printf("Server: %s client closed.\n",temp);
 	}
         
     
