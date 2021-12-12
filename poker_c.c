@@ -11,7 +11,6 @@
 
 #define BUF_SIZE 1024
  
-char recv_data[BUF_SIZE];
 int client_fd,len,n,n2;
 int mChip = 20;
 char oChip[BUF_SIZE];
@@ -31,7 +30,6 @@ int main(int argc,char *argv[])
     struct sockaddr_in client_addr;
     char *IP = argv[1];
     in_port_t PORT = atoi(argv[2]);
-    char chat_data[BUF_SIZE];
     
     if(argc != 3)
     {
