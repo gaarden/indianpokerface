@@ -15,7 +15,6 @@
 
 struct sockaddr_in server_addr,client_addr;
 int server_fd,client_fd,n,n2;
-char recv_data[BUF_LEN];
 
 int mChip = 20; //my chip
 char oChip[BUF_LEN]; //other chip->상대가 베팅한 칩 개수
@@ -69,8 +68,7 @@ int main(int argc,char *argv[])
     }
 
 	start();
-    
-    memset(recv_data,0x00,sizeof(recv_data));
+	
     len = sizeof(client_addr);
 
 	printf("이름을 입력해주세요.\n");
