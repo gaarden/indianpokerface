@@ -105,6 +105,7 @@ int main(int argc,char *argv[])
 
         while(game)
         {
+			printf("====================================\n");
 			sleep(2);
 			printf("<상대방 카드>\n");
 			oNum = newCard();
