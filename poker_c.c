@@ -205,8 +205,7 @@ void start() {
 	addstr("4. If you're scared, you can give up.\n");
 	addstr("5. If you run out of chips, you lose.\n");
 	addstr("6. The one with the big card wins.\n");
-	addstr("7. If your card is 10, but you die, the opponent wins\n");
-	addstr("8. There are 30 chips\n");
+	addstr("8. There are 20 chips\n");
 	addstr("\n Press 'q' to start game\n");
 	sleep(2);
 	getch();
