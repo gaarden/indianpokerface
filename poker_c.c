@@ -82,7 +82,7 @@ int main(int argc,char *argv[])
 				
 				read(client_fd, oChip, BUF_SIZE); //상대가 입력한 것 oChip저장
 				printf("상대는 %d개를 베팅했습니다.\n\n", atoi(oChip));
-
+			
 				printf("베팅할 칩 개수를 입력하세요.\n");
 				fgets(bChip, sizeof(bChip), stdin);
 
