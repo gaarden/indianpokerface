@@ -396,7 +396,7 @@ void start() {
     addstr("5. If you run out of chips, you lose.\n");
     addstr("6. The one with the big card wins.\n");
     addstr("7. There are 20 chips\n");
-    addstr("\n Press 'q' to start game\n");
+    addstr("\n 게임을 시작하려면 아무 키나 누르세요.\n");
     sleep(2);
     getch();
     endwin();
